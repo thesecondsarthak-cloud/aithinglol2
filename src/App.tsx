@@ -39,11 +39,6 @@ function App() {
   };
 
   const handleSubmit = async (input: UserInput) => {
-    if (!apiKey) {
-      setShowApiKeyModal(true);
-      return;
-    }
-
     setState('loading');
 
     try {
