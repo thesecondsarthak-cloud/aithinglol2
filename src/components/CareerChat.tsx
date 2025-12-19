@@ -12,11 +12,9 @@ interface Message {
 interface CareerChatProps {
   careerTitle: string;
   onBack: () => void;
-  apiKey: string;
-  onApiKeyNeeded: () => void;
 }
 
-export function CareerChat({ careerTitle, onBack, apiKey, onApiKeyNeeded }: CareerChatProps) {
+export function CareerChat({ careerTitle, onBack }: CareerChatProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -42,11 +40,6 @@ export function CareerChat({ careerTitle, onBack, apiKey, onApiKeyNeeded }: Care
 
     if (!inputValue.trim() || isLoading) return;
 
-    if (!apiKey) {
-      onApiKeyNeeded();
-      return;
-    }
-
     const userMessage: Message = {
       id: Date.now().toString(),
       role: 'user',
@@ -59,7 +52,7 @@ export function CareerChat({ careerTitle, onBack, apiKey, onApiKeyNeeded }: Care
     setIsLoading(true);
 
     try {
-      const response = await aiService.askCareerQuestion(inputValue.trim(), careerTitle, apiKey);
+      const response = await aiService.askCareerQuestion(inputValue.trim(), careerTitle);
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
